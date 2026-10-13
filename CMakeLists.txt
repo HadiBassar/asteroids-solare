@@ -56,3 +56,7 @@ target_link_libraries(Tappa08 PRIVATE SFML::Graphics common)
 # Tappa 09: frammenti, punteggio, vite e testo
 add_executable(Tappa09 Tappa09/main.cpp)
 target_link_libraries(Tappa09 PRIVATE SFML::Graphics common)
+
+# Tappa 10: scie orbitali, pausa e rifiniture
+add_executable(Tappa10 Tappa10/main.cpp)
+target_link_libraries(Tappa10 PRIVATE SFML::Graphics common)

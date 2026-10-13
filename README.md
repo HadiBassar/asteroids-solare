@@ -75,3 +75,76 @@ Ordine delle trasformazioni: translate poi rotate significa che il poligono vien
 TriangleFan: un ventaglio di triangoli che condividono il primo vertice (il centro). Funziona perché il poligono è “a stella” rispetto al centro. Il centro è più scuro e il bordo più chiaro, e SFML interpola i colori tra i vertici.
 
 Marcare e poi rimuovere: durante i cicli non si cancella niente (viva = false). Si rimuove tutto alla fine con erase-remove, come per i proiettili.
+
+Camera e interfaccia: il mondo si disegna con la View della camera, il testo con window.getDefaultView(). Se disegnassi il punteggio con la camera attiva, si muoverebbe nel mondo e uscirebbe dallo schermo. È un esempio diretto di due sistemi di riferimento diversi: mondo e schermo (slide 02).
+
+Frammenti: la velocità del frammento è la velocità della madre più una componente perpendicolare. Il vettore perpendicolare si ottiene ruotando di 90 gradi: (-y, x). Con segno +1 e -1 i due pezzi vanno in versi opposti.
+
+Perché nuovi: non si aggiungono elementi a un std::vector mentre lo scorri con un ciclo, perché lo spazio in memoria può spostarsi e i riferimenti diventano invalidi. Si accumulano da parte e si aggiungono dopo.
+
+Testo in SFML 3: sf::Text richiede il font nel costruttore. getLocalBounds() restituisce un rettangolo (position e size), che si usa per centrare il testo impostando l’origine a metà.
+Ricerca del font: caricaFont prova tre percorsi relativi, perché la cartella da cui lanci l’eseguibile cambia (radice, build, build\Debug). Non c’è nessun percorso assoluto, come richiede il progetto.
+
+Invulnerabilità: senza di essa, dopo il reset la navicella potrebbe finire subito contro un altro asteroide e perdere tutte le vite in pochi secondi. Il lampeggio usa fmod(tempo, 0.2) < 0.1, cioè un’onda quadra.
+
+std::deque: una coda a due estremità. Aggiungi i punti nuovi in fondo con push_back e togli i più vecchi davanti con pop_front, in modo efficiente. Con un vector togliere il primo elemento sposterebbe tutti gli altri.
+
+Sfumatura con l’alpha: ogni vertice della linea ha un colore con trasparenza diversa (t², quindi sfuma più in fretta in coda). SFML interpola i colori tra i vertici di un segmento, esattamente come interpola il colore dentro un triangolo. È l’interpolazione lineare dei vertici (slide 06, rasterizzazione).
+
+Ordine di disegno: le scie si disegnano prima di pianeti e navicella, così restano sotto. Nella grafica 2D vale l’algoritmo del pittore: l’ultimo disegnato copre i precedenti (slide 06 lo confronta con lo z-buffer del 3D).
+
+Pausa con dt = 0: tutta la simulazione si muove con dt, quindi azzerandolo si ferma ogni cosa, e basta una riga. Il campionamento delle scie usa lo stesso dt, perciò in pausa non aggiunge punti.
+
+Scia della navicella azzerata: quando la navicella viene riportata in orbita “salta” in un altro punto, e senza clear() si vedrebbe una linea dritta tra la vecchia e la nuova posizione.
+
+# Asteroids nel sistema solare
+
+Gioco 2D in C++17 con SFML 3.0 per l'esame di Fondamenti di Computer Grafica.
+Si pilota una navicella in un sistema solare con gravità newtoniana e si
+sparano gli asteroidi. Il progetto è diviso in 10 tappe (cartelle `Tappa01` ... `Tappa10`).
+
+## Requisiti
+
+CMake 4.0 o più recente, un compilatore C++17 (Visual Studio, GCC o Clang), Git
+e una connessione a internet (CMake scarica SFML 3.0.2 al primo avvio).
+
+## Build di tutte le tappe
+
+```
+cmake -B build
+cmake --build build --config Debug
+```
+
+## Esecuzione
+
+Lanciare dalla radice del progetto (così trovano `risorse/`):
+
+- Windows: `.\build\Debug\Tappa10.exe` (cambiare 10 con il numero della tappa)
+- Linux e macOS: `./build/Tappa10`
+
+Nessuna tappa richiede argomenti da riga di comando.
+
+## Comandi
+
+| Comando                  | Effetto                         | Dalla tappa |
+| ------------------------ | ------------------------------- | ----------- |
+| Frecce sinistra e destra | Ruotano la navicella            | 02          |
+| Freccia su               | Spinta                          | 03          |
+| R                        | Riporta la navicella in orbita  | 05          |
+| Rotella del mouse        | Zoom                            | 06          |
+| Spazio                   | Spara                           | 07          |
+| Invio                    | Nuova partita dopo il game over | 09          |
+| T                        | Attiva o disattiva le scie      | 10          |
+| P                        | Pausa                           | 10          |
+| Esc                      | Esci                            | 01          |
+
+## Tappe
+
+01 finestra e Sole · 02 navicella che ruota · 03 spinta e inerzia · 04 gravità e primo pianeta ·
+05 più pianeti e gravità sulla navicella · 06 camera e zoom · 07 proiettili ·
+08 asteroidi e collisioni · 09 frammenti, punteggio e vite · 10 scie e pausa
+
+## Fonti
+
+Il template CMake deriva dal Laboratorio 3 dei docenti. Il font Arial.ttf viene dai materiali dei docenti.
+Il codice è stato scritto con l'aiuto di Claude (Anthropic). Dettagli in `relazione.md`.
