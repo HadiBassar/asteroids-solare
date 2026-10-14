@@ -1,9 +1,9 @@
 # Relazione: Asteroids nel sistema solare
 
-**Studente:** [Nome Cognome], matricola [numero]
+**Studente:** Hadi Bassar 5475218
 **Esame:** Fondamenti di Computer Grafica
 **Tecnologie:** C++17, SFML 3.0.2, CMake (grafica 2D)
-**Repository:** [link al repository GitHub]
+**Repository:** https://github.com/HadiBassar/asteroids-solare/tree/main
 
 ---
 
