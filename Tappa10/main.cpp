@@ -145,7 +145,7 @@ int main() {
 
     // Il Sole
     const sf::Vector2f centroSole{larghezza / 2.f, altezza / 2.f};
-    const float raggioSole = 40.f;
+    const float raggioSole = 70.f;
     sf::CircleShape sole(raggioSole);
     sole.setFillColor(sf::Color::Yellow);
     sole.setOrigin({raggioSole, raggioSole});
@@ -155,10 +155,10 @@ int main() {
 
     // I pianeti
     std::vector<Pianeta> pianeti;
-    pianeti.push_back(creaPianeta(centroSole, 110.f, 8.f, sf::Color::Red, 0.f, GM));
-    pianeti.push_back(creaPianeta(centroSole, 170.f, 12.f, sf::Color::Cyan, 2.f, GM));
-    pianeti.push_back(creaPianeta(centroSole, 240.f, 10.f, sf::Color::Green, 4.f, GM));
-    pianeti.push_back(creaPianeta(centroSole, 320.f, 14.f, sf::Color::Magenta, 1.f, GM));
+    pianeti.push_back(creaPianeta(centroSole, 110.f, 14.f, sf::Color::Red, 0.f, GM));
+    pianeti.push_back(creaPianeta(centroSole, 170.f, 22.f, sf::Color::Cyan, 2.f, GM));
+    pianeti.push_back(creaPianeta(centroSole, 240.f, 18.f, sf::Color::Green, 4.f, GM));
+    pianeti.push_back(creaPianeta(centroSole, 320.f, 26.f, sf::Color::Magenta, 1.f, GM));
 
     // Stelle
     std::mt19937 gen(42);
